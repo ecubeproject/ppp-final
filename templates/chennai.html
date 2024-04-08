@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPP: Chennai</title>
+    <!-- Bootstrap CSS  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* overflow: hidden; */
+            display: flex;
+
+            height: 100vh;
+            margin: 0;
+        }
+
+        .blurry-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ url_for('static',filename='images/chennai.jpg')}}");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        .container {
+            width: 2000px;
+            justify-content: center;
+            align-items: center;
+            /* overflow: hidden; */
+            display: flex;
+
+
+            /* margin: 0; */
+        }
+
+        .form-container {
+            width: 2000px;
+            margin: 0 auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 270px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+
+        .form-group .flex-item-left {
+            margin-right: 10px;
+        }
+
+        .predict-button {
+            width: 270px;
+            height: 40px;
+            margin-left: 20px;
+            font-size: 17px;
+            color: #fff;
+            background-color: #2691d9;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .predict-button:hover {
+            background-color: #1e87cc;
+            transition: .5s;
+            color: #000;
+
+
+        }
+
+        .predicted-price {
+            width: 100%;
+            padding: 10px;
+            font-size: 17px;
+            border-radius: 5px;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back a {
+            text-decoration: none;
+            font-size: 17px;
+            color: #fff;
+            background-color: #727a76;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .back a:hover {
+            color: #000;
+            background-color: #999;
+        }
+
+        /* h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        } */
+
+        h4 {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="blurry-background"></div>
+        <div class="form-container">
+            <h2>Property Price Prediction: Chennai</h2>
+            <h4>{{alert}}</h4>
+            <form action="/chennai/predict" method="POST">
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <input type="text" id="area1" name="area" placeholder="Area in sqft (200 to 9900)" required>
+                    </div>
+                    <div class="flex-item-left">
+                        <input type="text" id="bedrooms1" name="bedrooms" placeholder="No of Bedrooms (1 to 9)"
+                            required>
+                    </div>
+
+                    <div class="flex-item-left">
+                        <select id="location1" name="location" class="form-select" required>
+                            <option value="">Location</option>
+                            <option value="Adambakkam">Adambakkam</option>
+                            <option value="Adyar">Adyar</option>
+                            <option value="Alandur">Alandur</option>
+                            <option value="Alwarpet">Alwarpet</option>
+                            <option value="Ambattur">Ambattur</option>
+                            <option value="Aminjikarai">Aminjikarai</option>
+                            <option value="Anna Nagar">Anna Nagar</option>
+                            <option value="Annamalai Colony">Annamalai Colony</option>
+                            <option value="Annanagar West">Annanagar West</option>
+                            <option value="Annanagar">Annanagar</option>
+                            <option value="Avadi">Avadi</option>
+                            <option value="Ayanambakkam">Ayanambakkam</option>
+                            <option value="Ayapakkam">Ayapakkam</option>
+                            <option value="Besant Nagar">Besant Nagar</option>
+                            <option value="Chembarambakkam">Chembarambakkam</option>
+                            <option value="Chengalpattu">Chengalpattu</option>
+                            <option value="Chetpet">Chetpet</option>
+                            <option value="Chitlapakkam">Chitlapakkam</option>
+                            <option value="Cholambedu">Cholambedu</option>
+                            <option value="Choolaimedu">Choolaimedu</option>
+                            <option value="Chromepet">Chromepet</option>
+                            <option value="CIT Nagar">CIT Nagar</option>
+                            <option value="East Tambaram">East Tambaram</option>
+                            <option value="Egatoor">Egatoor</option>
+                            <option value="Egmore">Egmore</option>
+                            <option value="Ekkatuthangal">Ekkatuthangal</option>
+                            <option value="Gopalapuram">Gopalapuram</option>
+                            <option value="Gowrivakkam">Gowrivakkam</option>
+                            <option value="Guduvancheri">Guduvancheri</option>
+                            <option value="Guindy">Guindy</option>
+                            <option value="Injambakkam">Injambakkam</option>
+                            <option value="Irumbuliyur">Irumbuliyur</option>
+                            <option value="Iyappanthangal">Iyappanthangal</option>
+                            <option value="Iyyappanthangal">Iyyappanthangal</option>
+                            <option value="Jamalia">Jamalia</option>
+                            <option value="K K Nagar">K K Nagar</option>
+                            <option value="Kanathur Reddikuppam">Kanathur Reddikuppam</option>
+                            <option value="Karapakkam">Karapakkam</option>
+                            <option value="Kattankulathur">Kattankulathur</option>
+                            <option value="Kattupakkam">Kattupakkam</option>
+                            <option value="Kelambakkam">Kelambakkam</option>
+                            <option value="Kil Ayanambakkam">Kil Ayanambakkam</option>
+                            <option value="Kilkattalai">Kilkattalai</option>
+                            <option value="Kilpauk">Kilpauk</option>
+                            <option value="Kodambakkam">Kodambakkam</option>
+                            <option value="Kolapakkam">Kolapakkam</option>
+                            <option value="Kolathur">Kolathur</option>
+                            <option value="Korattur">Korattur</option>
+                            <option value="Kotturpuram">Kotturpuram</option>
+                            <option value="Kovilambakkam">Kovilambakkam</option>
+                            <option value="Kovur">Kovur</option>
+                            <option value="Koyambedu">Koyambedu</option>
+                            <option value="Kumananchavadi">Kumananchavadi</option>
+                            <option value="Kundrathur">Kundrathur</option>
+                            <option value="Madambakkam">Madambakkam</option>
+                            <option value="Madhavaram">Madhavaram</option>
+                            <option value="Madipakkam">Madipakkam</option>
+                            <option value="Maduravoyal">Maduravoyal</option>
+                            <option value="Mambakkam">Mambakkam</option>
+                            <option value="Manapakkam">Manapakkam</option>
+                            <option value="Manikandan Nagar">Manikandan Nagar</option>
+                            <option value="Mannivakkam">Mannivakkam</option>
+                            <option value="Maraimalai Nagar">Maraimalai Nagar</option>
+                            <option value="Medavakkam">Medavakkam</option>
+                            <option value="Mevalurkuppam">Mevalurkuppam</option>
+                            <option value="Mogappair">Mogappair</option>
+                            <option value="Moolacheri">Moolacheri</option>
+                            <option value="Moolakadai">Moolakadai</option>
+                            <option value="Mudichur">Mudichur</option>
+                            <option value="Mugalivakkam">Mugalivakkam</option>
+                            <option value="Nandambakkam">Nandambakkam</option>
+                            <option value="Nandanam">Nandanam</option>
+                            <option value="Nanganallur">Nanganallur</option>
+                            <option value="Nanmangalam">Nanmangalam</option>
+                            <option value="Navallur">Navallur</option>
+                            <option value="NehruNagar">NehruNagar</option>
+                            <option value="Nenmeli">Nenmeli</option>
+                            <option value="Nungambakkam">Nungambakkam</option>
+                            <option value="Padi">Padi</option>
+                            <option value="Padur">Padur</option>
+                            <option value="Palavakkam">Palavakkam</option>
+                            <option value="Pallavaram">Pallavaram</option>
+                            <option value="Pallikaranai">Pallikaranai</option>
+                            <option value="Pammal">Pammal</option>
+                            <option value="Pazavanthangal">Pazavanthangal</option>
+                            <option value="Peerakankaranai">Peerakankaranai</option>
+                            <option value="Perambur">Perambur</option>
+                            <option value="Periyapanicheri">Periyapanicheri</option>
+                            <option value="Perumbakkam">Perumbakkam</option>
+                            <option value="Perungalathur">Perungalathur</option>
+                            <option value="Perungudi">Perungudi</option>
+                            <option value="Poonamallee">Poonamallee</option>
+                            <option value="Porur">Porur</option>
+                            <option value="Pozhichalur">Pozhichalur</option>
+                            <option value="Purasaiwakkam">Purasaiwakkam</option>
+                            <option value="Puzhal">Puzhal</option>
+                            <option value="Raja Annamalai Puram">Raja Annamalai Puram</option>
+                            <option value="Rajakilpakkam">Rajakilpakkam</option>
+                            <option value="Ramapuram">Ramapuram</option>
+                            <option value="Ramavaram">Ramavaram</option>
+                            <option value="Royapettah">Royapettah</option>
+                            <option value="Saidapet">Saidapet</option>
+                            <option value="Selaiyur">Selaiyur</option>
+                            <option value="Sembakkam">Sembakkam</option>
+                            <option value="Semmancheri">Semmancheri</option>
+                            <option value="Sholinganallur">Sholinganallur</option>
+                            <option value="Singaperumal Koil">Singaperumal Koil</option>
+                            <option value="Siruseri">Siruseri</option>
+                            <option value="Sithalapakkam">Sithalapakkam</option>
+                            <option value="Sunnambu Kolathur S Kolathur">Sunnambu Kolathur S Kolathur</option>
+                            <option value="T Nagar">T Nagar</option>
+                            <option value="Tambaram Sanatoruim">Tambaram Sanatoruim</option>
+                            <option value="tambaram west">Tambaram West</option>
+                            <option value="Teynampet">Teynampet</option>
+                            <option value="Thaiyur">Thaiyur</option>
+                            <option value="Thalambur">Thalambur</option>
+                            <option value="Thatchoor">Thatchoor</option>
+                            <option value="Thirumazhisai">Thirumazhisai</option>
+                            <option value="Thirumullaivoyal">Thirumullaivoyal</option>
+                            <option value="Thiruvanmiyur">Thiruvanmiyur</option>
+                            <option value="Thiruverkadu">Thiruverkadu</option>
+                            <option value="Thiruvidandhai">Thiruvidandhai</option>
+                            <option value="Thoraipakkam OMR">Thoraipakkam OMR</option>
+                            <option value="Thoraipakkam">Thoraipakkam</option>
+                            <option value="Tiruvottiyur">Tiruvottiyur</option>
+                            <option value="Ullagaram">Ullagaram</option>
+                            <option value="Urapakkam">Urapakkam</option>
+                            <option value="Vadapalani">Vadapalani</option>
+                            <option value="Valasaravakkam">Valasaravakkam</option>
+                            <option value="Vanagaram">Vanagaram</option>
+                            <option value="Vandalur">Vandalur</option>
+                            <option value="Velachery">Velachery</option>
+                            <option value="Velappanchavadi">Velappanchavadi</option>
+                            <option value="Vellakkal">Vellakkal</option>
+                            <option value="Vengaivasal">Vengaivasal</option>
+                            <option value="Villivakkam">Villivakkam</option>
+                            <option value="Virugambakkam">Virugambakkam</option>
+                            <option value="West Tambaram">West Tambaram</option>
+
+                            <!-- Add your location options here -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="club-house3" name="club-house" required>
+                            <option value="">Club House</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="rain-water-harvesting3" name="rain-water-harvesting" required>
+                            <option value="">Rain Water Harvesting</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="swimming-pool3" name="Swimming-Pool" required>
+                            <option value="">Swimming Pool</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="resale3" name="resale" required>
+                            <option value="">Resale</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Cafeteria3" name="Cafeteria" required>
+                            <option value="">Cafeteria</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Refrigerator3" name="Refrigerator" required>
+                            <option value="">Refrigerator</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Shopping-Mall3" name="Shopping-Mall" required>
+                            <option value="">Shopping Mall</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Jogging-Track3" name="Jogging-Track" required>
+                            <option value="">Jogging Track</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Landscaped-Gardens3" name="Landscaped-Gardens" required>
+                            <option value="">Landscaped Gardens</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Vaastu-Compliant3" name="Vaastu-Compliant" required>
+                            <option value="">Vaastu Compliant</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Multipurpose-Room3" name="Multipurpose-Room" required>
+                            <option value="">Multipurpose Room</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="AC3" name="AC" required>
+                            <option value="">AC</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Indoor-Games3" name="Indoor-Games" required>
+                            <option value="">Indoor Games</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="BED3" name="BED" required>
+                            <option value="">Bed</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Sofa3" name="Sofa" required>
+                            <option value="">Sofa</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Sports-Facility3" name="Sports-Facility" required>
+                            <option value="">Sports Facility</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Washing-Machine3" name="Washing-Machine" required>
+                            <option value="">Washing-Machine</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+    
+                    </div>
+                    <!-- Add more form groups here -->
+
+                    <div class="flex-item-left">
+                        <button type="submit" class="predict-button">Predict Property Price</button>
+                    </div>
+                    <div class="flex-item-left">
+                        <input type="text" class="predicted-price" readonly value="{{  predicted_price }}">
+                    </div>
+                </div>
+
+
+                <div class="back">
+                    <a href="/">Back to The Selection City page</a>
+                </div>
+        </div>
+        </form>
+    </div>
+</body>
+
+
+</html>

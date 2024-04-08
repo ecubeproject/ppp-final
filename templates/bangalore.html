@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPP: Bangalore</title>
+    <!-- Bootstrap CSS  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* overflow: hidden; */
+            display: flex;
+
+            height: 100vh;
+            margin: 0;
+        }
+
+        .blurry-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ url_for('static',filename='images/banglore.jpg')}}");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        .container {
+            width: 2000px;
+            justify-content: center;
+            align-items: center;
+            /* overflow: hidden; */
+            display: flex;
+
+
+            /* margin: 0; */
+        }
+
+        .form-container {
+            width: 2000px;
+            margin: 0 auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 270px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 17px;
+        }
+
+        .form-group .flex-item-left {
+            margin-right: 10px;
+        }
+
+        .predict-button {
+            width: 270px;
+            height: 40px;
+            margin-left: 20px;
+            font-size: 17px;
+            color: #fff;
+            background-color: #2691d9;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .predict-button:hover {
+            background-color: #1e87cc;
+            transition: .5s;
+            color: #000;
+
+
+        }
+
+        .predicted-price {
+            width: 100%;
+            padding: 10px;
+            font-size: 17px;
+            border-radius: 5px;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back a {
+            text-decoration: none;
+            font-size: 17px;
+            color: #fff;
+            background-color: #727a76;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .back a:hover {
+            color: #000;
+            background-color: #999;
+        }
+
+        /* h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        } */
+
+        h4 {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="blurry-background"></div>
+        <div class="form-container">
+            <h2>Property Price Prediction: Bangalore</h2>
+            <h4>{{alert}}</h4>
+            <form action="/bangalore/predict" method="POST">
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <input type="text" id="area1" name="area" placeholder="Area in sqft (200 to 9900)" required>
+                    </div>
+                    <div class="flex-item-left">
+                        <input type="text" id="bedrooms1" name="bedrooms" placeholder="No of Bedrooms (1 to 9)"
+                            required>
+                    </div>
+
+                    <div class="flex-item-left">
+                        <select id="location1" name="location" class="form-select" required>
+                            <option value="">Location</option>
+                            <option value="Amruthahalli">Amruthahalli</option>
+                            <option value="Anagalapura Near Hennur Main Road">Anagalapura Near Hennur Main Road</option>
+                            <option value="Anekal City">Anekal City</option>
+                            <option value="Anjanapura">Anjanapura</option>
+                            <option value="Ashok Nagar">Ashok Nagar</option>
+                            <option value="Attibele">Attibele</option>
+                            <option value="Avalahalli Off Sarjapur Road">Avalahalli Off Sarjapur Road</option>
+                            <option value="Badamanavarthekaval">Badamanavarthekaval</option>
+                            <option value="Banashankari">Banashankari</option>
+                            <option value="Banaswadi">Banaswadi</option>
+                            <option value="Bannerughatta">Bannerughatta</option>
+                            <option value="Begur">Begur</option>
+                            <option value="Bellandur">Bellandur</option>
+                            <option value="Bikasipura">Bikasipura</option>
+                            <option value="Bilekahalli">Bilekahalli</option>
+                            <option value="Bommanahalli">Bommanahalli</option>
+                            <option value="Bommasandra">Bommasandra</option>
+                            <option value="Brookefield">Brookefield</option>
+                            <option value="BTM Layout">BTM Layout</option>
+                            <option value="Budigere Cross">Budigere Cross</option>
+                            <option value="Carmelaram">Carmelaram</option>
+                            <option value="Chandapura">Chandapura</option>
+                            <option value="Chikkagubbi on Hennur Main Road">Chikkagubbi on Hennur Main Road</option>
+                            <option value="Chikkalasandra">Chikkalasandra</option>
+                            <option value="CV Raman Nagar">CV Raman Nagar</option>
+                            <option value="Dasarahalli on Tumkur Road">Dasarahalli on Tumkur Road</option>
+                            <option value="Devanahalli">Devanahalli</option>
+                            <option value="Doddanekundi">Doddanekundi</option>
+                            <option value="Domlur">Domlur</option>
+                            <option value="Electronic City Phase 1">Electronic City Phase 1</option>
+                            <option value="Electronic City Phase 2">Electronic City Phase 2</option>
+                            <option value="Electronics City">Electronics City</option>
+                            <option value="Gottigere">Gottigere</option>
+                            <option value="Harlur">Harlur</option>
+                            <option value="Hebbal">Hebbal</option>
+                            <option value="Hennur">Hennur</option>
+                            <option value="Horamavu">Horamavu</option>
+                            <option value="Hosa Road">Hosa Road</option>
+                            <option value="Hulimavu">Hulimavu</option>
+                            <option value="ITPL">ITPL</option>
+                            <option value="J. P. Nagar">J. P. Nagar</option>
+                            <option value="Jakkur">Jakkur</option>
+                            <option value="Jalahalli">Jalahalli</option>
+                            <option value="Jayanagar">Jayanagar</option>
+                            <option value="Jigani">Jigani</option>
+                            <option value="JP Nagar Phase 1">JP Nagar Phase 1</option>
+                            <option value="JP Nagar Phase 3">JP Nagar Phase 3</option>
+                            <option value="JP Nagar Phase 4">JP Nagar Phase 4</option>
+                            <option value="JP Nagar Phase 6">JP Nagar Phase 6</option>
+                            <option value="JP Nagar Phase 7">JP Nagar Phase 7</option>
+                            <option value="JP Nagar Phase 8">JP Nagar Phase 8</option>
+                            <option value="JP Nagar Phase 9">JP Nagar Phase 9</option>
+                            <option value="Junnasandra">Junnasandra</option>
+                            <option value="K. Chudahalli">K. Chudahalli</option>
+                            <option value="Kadugodi Industrial Area">Kadugodi Industrial Area</option>
+                            <option value="Kadugodi">Kadugodi</option>
+                            <option value="Kanakapura Road Beyond Nice Ring Road">Kanakapura Road Beyond Nice Ring Road
+                            </option>
+                            <option value="Kanakapura">Kanakapura</option>
+                            <option value="Kannamangala">Kannamangala</option>
+                            <option value="Kannur on Thanisandra Main Road">Kannur on Thanisandra Main Road</option>
+                            <option value="Kasavanahalli">Kasavanahalli</option>
+                            <option value="Kasheli">Kasheli</option>
+                            <option value="Kasheli">Kasheli</option>
+                            <option value="Kengeri">Kengeri</option>
+                            <option value="Kodigehalli">Kodigehalli</option>
+                            <option value="Kogilu">Kogilu</option>
+                            <option value="Konanakunte">Konanakunte</option>
+                            <option value="Koramangala">Koramangala</option>
+                            <option value="Kothanur">Kothanur</option>
+                            <option value="KPC Layout">KPC Layout</option>
+                            <option value="Krishnarajapura">Krishnarajapura</option>
+                            <option value="Kudlu">Kudlu</option>
+                            <option value="Kumaraswamy Layout">Kumaraswamy Layout</option>
+                            <option value="Kumbalgodu">Kumbalgodu</option>
+                            <option value="Kuvempu Layout on Hennur Main Road">Kuvempu Layout on Hennur Main Road
+                            </option>
+                            <option value="Marathahalli">Marathahalli</option>
+                            <option value="Marsur">Marsur</option>
+                            <option value="Muneshwara Nagar">Muneshwara Nagar</option>
+                            <option value="Nagarbhavi">Nagarbhavi</option>
+                            <option value="Narayanaghatta">Narayanaghatta</option>
+                            <option value="Narayanapura on Hennur Main Road">Narayanapura on Hennur Main Road</option>
+                            <option value="Nayandahalli">Nayandahalli</option>
+                            <option value="Nelamangala">Nelamangala</option>
+                            <option value="Padmanabhanagar">Padmanabhanagar</option>
+                            <option value="R T Nagar">R T Nagar</option>
+                            <option value="R.K. Hegde Nagar">R.K. Hegde Nagar</option>
+                            <option value="Rajajinagar">Rajajinagar</option>
+                            <option value="Ramamurthy Nagar">Ramamurthy Nagar</option>
+                            <option value="Richmond Town">Richmond Town</option>
+                            <option value="RMV Extension Stage 2">RMV Extension Stage 2</option>
+                            <option value="RMV">RMV</option>
+                            <option value="RR Nagar">RR Nagar</option>
+                            <option value="Sahakar Nagar">Sahakar Nagar</option>
+                            <option value="Sanjaynagar">Sanjaynagar</option>
+                            <option value="Sarjapur Road Wipro To Railway Crossing">Sarjapur Road Wipro To Railway
+                                Crossing
+                            </option>
+                            <option value="Sarjapur">Sarjapur</option>
+                            <option value="Singasandra">Singasandra</option>
+                            <option value="Subramanyapura">Subramanyapura</option>
+                            <option value="Talaghattapura">Talaghattapura</option>
+                            <option value="Thanisandra">Thanisandra</option>
+                            <option value="Uttarahalli Hobli">Uttarahalli Hobli</option>
+                            <option value="Uttarahalli">Uttarahalli</option>
+                            <option value="Varthur">Varthur</option>
+                            <option value="Vidyaranyapura">Vidyaranyapura</option>
+                            <option value="Whitefield Hope Farm Junction">Whitefield Hope Farm Junction</option>
+                            <option value="Whitefield">Whitefield</option>
+                            <option value="Yelahanka">Yelahanka</option>
+                            <option value="Yerthiganahalli">Yerthiganahalli</option>
+
+                            <!-- Add your location options here -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="School5" name="School" required>
+                            <option value="">School near by</option>
+                            <option  value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="rain-water-harvesting5" name="rain-water-harvesting" required>
+                            <option value="">Rain Water Harvesting</option>
+                            <option  value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Staff-Quarter5" name="Staff-Quarter" required>
+                            <option value="">Staff Quarter</option>
+                            <option  value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Intercom5" name="Intercom"  required>
+                            <option value="">Intercom</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Cafeteria5" name="Cafeteria" required>
+                            <option value="">Cafeteria</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Lift-Available5" name="Lift-Available" required>
+                            <option value="">Lift Available</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Maintenance-Staff5" name="Maintenance-Staff" required>
+                            <option value="">Maintenance Staff</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Gas-connection5" name="Gas-connection" required>
+                            <option value="">Gas connection</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Landscaped-Gardens5" name="Landscaped-Gardens" required>
+                            <option value="">Landscaped Gardens</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Vaastu-Compliant5" name="Vaastu-Compliant" required>
+                            <option value="">Vaastu Compliant</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Hospital5" name="Hospital" required>
+                            <option value="">Hospital near by</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="ATM" name="ATM" required>
+                            <option value="">ATM near by</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Indoor-Games1" name="Indoor-Games" required>
+                            <option value="">Indoor Games</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Washing-Machine1" name="Washing-Machine" required>
+                            <option value="">Washing Machine</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Car-Parking1" name="Car-Parking" required>
+                            <option value="">Car Parking</option>
+                            <option value="Yes">Yes</option>
+                            <option  value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="flex-item-left">
+                        <select id="Shopping-Mall" name="Shopping-Mall" required>
+                            <option value="">Shopping-Mall near by</option>
+                            <option  value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <div class="flex-item-left">
+                        <select id="Golf-Course" name="Golf-Course" required>
+                            <option value="">Golf Course</option>
+                            <option  value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+    
+                    </div>
+                    <!-- Add more form groups here -->
+
+                    <div class="flex-item-left">
+                        <button type="submit" class="predict-button">Predict Property Price</button>
+                    </div>
+                    <div class="flex-item-left">
+                        <input type="text" class="predicted-price" readonly value="{{  predicted_price }}">
+                    </div>
+                </div>
+
+
+                <div class="back">
+                    <a href="/">Back to The Selection City page</a>
+                </div>
+        </div>
+        </form>
+    </div>
+</body>
+
+
+</html>
